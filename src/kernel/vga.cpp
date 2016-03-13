@@ -59,7 +59,7 @@ void ConsoleVGA::increment(const int step) noexcept {
 void ConsoleVGA::newline() noexcept {
   // Use whitespace to force blank the remainder of the line
   while (this->column < VGA_WIDTH) {
-    putEntryAt(32, this->column++, this->row);
+    putEntryAt('!', this->column++, this->row);
   }
 
   // Reset back to left side
@@ -69,7 +69,7 @@ void ConsoleVGA::newline() noexcept {
   if (++this->row == VGA_HEIGHT) {
     this->row--;
     
-    unsigned total {VGA_WIDTH * (VGA_HEIGHT - 1)};
+    unsigned total {VGA_WIDTH * VGA_HEIGHT};
 
     __m128i scan;
     
