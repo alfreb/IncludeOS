@@ -35,6 +35,7 @@ extern "C" {
 }
 
 extern void default_stdout_handlers();
+extern void __arch_init_paging();
 
 extern "C"
 void kernel_start(uintptr_t magic, uintptr_t addr)
@@ -59,6 +60,8 @@ void kernel_start(uintptr_t magic, uintptr_t addr)
   // Initialize zero-initialized vars
   _init_bss();
 
+  kprint("BSS initialized \n");
+
   // Initialize heap
   _init_heap(free_mem_begin);
 
@@ -70,6 +73,8 @@ void kernel_start(uintptr_t magic, uintptr_t addr)
 
   // Initialize stdout handlers
   default_stdout_handlers();
+
+  __arch_init_paging();
 
   // Call global ctors
   __libc_init_array();

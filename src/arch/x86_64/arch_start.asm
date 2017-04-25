@@ -15,15 +15,25 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 global __arch_start:function
+global __arch_paging_start
+global __arch_page_dir_size
+
 extern kernel_start
 
 %define PAGE_SIZE          0x1000
 %define P4_TAB             0x1000
 %define P3_TAB             0x2000 ;; - 0x5000
+%define DIR_SIZE           0x3000
 %define P2_TAB           0x100000
 %define STACK_LOCATION   0xA00000
 
 [BITS 32]
+__arch_paging_start:
+    dq P2_TAB
+
+__arch_page_dir_size:
+    dq DIR_SIZE
+
 __arch_start:
     ;; disable old paging
     mov eax, cr0
@@ -33,7 +43,7 @@ __arch_start:
     ;; address for Page Map Level 4
     mov edi, P4_TAB
     mov cr3, edi
-    mov ecx, 0x3000 / 0x4
+    mov ecx, DIR_SIZE / 0x4
     xor eax, eax       ; Nullify the A-register.
     rep stosd
 
@@ -46,13 +56,13 @@ __arch_start:
     mov ebx, P2_TAB | 0x3 ;; present + write
     mov DWORD [edi], ebx
     add edi, 8
-    add ebx, 0x1000
+    add ebx, PAGE_SIZE
     mov DWORD [edi], ebx
     add edi, 8
-    add ebx, 0x1000
+    add ebx, PAGE_SIZE
     mov DWORD [edi], ebx
     add edi, 8
-    add ebx, 0x1000
+    add ebx, PAGE_SIZE
     mov DWORD [edi], ebx
 
     ;; create page directory entries
@@ -76,7 +86,7 @@ __arch_start:
     ;; enable long mode
     mov ecx, 0xC0000080          ; EFER MSR
     rdmsr
-    or eax, 1 << 8               ; Long Mode bit
+    or eax, 1 | 0xD00            ; Long Mode bit
     wrmsr
 
     ;; enable paging

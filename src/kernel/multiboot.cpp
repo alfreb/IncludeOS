@@ -122,6 +122,16 @@ void OS::multiboot(uint32_t boot_addr)
               static_cast<uintptr_t>(map.addr + map.len - 1), "Reserved", "Multiboot / BIOS"});
       }
     }
+
+    auto page_dir = __arch_page_directory();
+    MYINFO("Getting page table location");
+    if (not page_dir.empty()) {
+      MYINFO("It was empty");
+      auto dir_start = reinterpret_cast<uintptr_t>(page_dir.data());
+      auto dir_end = reinterpret_cast<uintptr_t>(dir_start + (page_dir.size() * PAGE_SIZE) - 1) ;
+      memory_map().assign_range({dir_start, dir_end, "Paging", "Page directory"});
+    }
+
     printf("\n");
   }
 

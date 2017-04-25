@@ -115,7 +115,7 @@ SECTIONS
   }
 
 
-  .rodata :
+  .rodata ALIGN(0x1000):
   {
     _RODATA_START_ = .;
     *(.rodata*)
@@ -141,7 +141,7 @@ SECTIONS
     *(.gcc_except_table)
   }
 
-  .data :
+  .data ALIGN(0x1000):
   {
     _DATA_START_ = .;
     *(.data)
@@ -162,7 +162,7 @@ SECTIONS
     LONG (0);
   }
 
-  .bss :
+  .bss ALIGN(0x1000):
   {
     _BSS_START_ = .;
     *(.bss .bss.* .gnu.linkonce.b.*)

@@ -23,12 +23,21 @@
 #include <cstddef>
 #include <cstdint>
 #include <cassert>
+#include <array>
+#include <gsl/gsl>
+
+#define PAGE_SIZE 4096
+
+using Page = std::array<uint8_t, PAGE_SIZE>;
 
 extern void __arch_init();
 extern void __arch_poweroff();
 extern void __arch_reboot();
 extern void __arch_enable_legacy_irq(uint8_t);
 extern void __arch_disable_legacy_irq(uint8_t);
+extern void __arch_init_paging();
+extern gsl::span<Page> __arch_page_directory();
+
 inline void __arch_hw_barrier() noexcept;
 inline void __sw_barrier() noexcept;
 inline uint64_t __arch_cpu_cycles() noexcept;

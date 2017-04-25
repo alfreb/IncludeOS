@@ -36,6 +36,11 @@ namespace x86 {
   static void initialize_cpu_shared();
 }
 
+__attribute__((weak))
+void __arch_init_paging() {
+  MYINFO("Not enabling paging");
+};
+
 void __arch_init()
 {
   // read ACPI tables
