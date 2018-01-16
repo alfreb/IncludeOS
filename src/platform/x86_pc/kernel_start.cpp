@@ -25,12 +25,44 @@ extern "C" {
   void __init_sanity_checks();
   void kernel_sanity_checks();
   uintptr_t _multiboot_free_begin(uintptr_t boot_addr);
-  uintptr_t _move_symbols(uintptr_t loc);
-  void _init_bss();
-  void _init_heap(uintptr_t);
-  void _init_c_runtime();
-  void _init_syscalls();
+  //uintptr_t _move_symbols(uintptr_t loc);
 }
+
+int* kernel_main(int, char * *, char * *) {
+  // Initialize early OS, platform and devices
+  OS::start(0u,0u);
+
+  // Initialize common subsystems and call Service::start
+  OS::post_start();
+
+  // verify certain read-only sections in memory
+  kernel_sanity_checks();
+
+  // Starting event loop from here allows us to profile OS::start
+  OS::event_loop();
+}
+
+typedef struct
+{
+  long int a_type;              /* Entry type */
+  union
+    {
+      long int a_val;           /* Integer value */
+      void *a_ptr;              /* Pointer value */
+      void (*a_fcn) (void);     /* Function pointer value */
+    } a_un;
+} auxv_t;
+
+extern "C"
+int __libc_start_main(int *(main) (int, char * *, char * *),
+                     int argc, char * * ubp_av,
+                     void (*init) (void),
+                     void (*fini) (void),
+                     void (*rtld_fini) (void),
+                     void (* stack_end));
+
+extern "C" void _init();
+extern "C" void _fini();
 
 extern "C"
 __attribute__((no_sanitize("all")))
@@ -51,29 +83,18 @@ void kernel_start(uintptr_t magic, uintptr_t addr)
   }
 
   // Preserve symbols from the ELF binary
-  free_mem_begin += _move_symbols(free_mem_begin);
+  //free_mem_begin += _move_symbols(free_mem_begin);
 
-  // Initialize zero-initialized vars
-  _init_bss();
+  // TODO: set heap begin
 
-  // Initialize heap
-  _init_heap(free_mem_begin);
+  extern char _INIT_START_;
+  extern char _FINI_START_;
+  void* init_location = &_INIT_START_;
+  void* fini_location = &_FINI_START_;
+  void* rtld_fini = nullptr;
+  void* stack_end = (void*) 0x10000;
 
-  // Initialize stack-unwinder, call global constructors etc.
-  _init_c_runtime();
+  __libc_start_main(kernel_main, 0, nullptr,
+      _init, _fini, [](){}, stack_end);
 
-  // Initialize system calls
-  _init_syscalls();
-
-  // Initialize early OS, platform and devices
-  OS::start(magic, addr);
-
-  // Initialize common subsystems and call Service::start
-  OS::post_start();
-
-  // verify certain read-only sections in memory
-  kernel_sanity_checks();
-
-  // Starting event loop from here allows us to profile OS::start
-  OS::event_loop();
 }

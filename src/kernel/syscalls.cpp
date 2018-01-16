@@ -23,7 +23,6 @@
 #include <sys/errno.h>
 #include <sys/stat.h>
 #include <kernel/os.hpp>
-#include <kernel/rtc.hpp>
 
 #include <statman>
 #include <kprint>
@@ -44,10 +43,10 @@ const char* panic_signature = "\x15\x07\t**** PANIC ****";
 
 char*   __env[1] {nullptr};
 char**  environ {__env};
-extern "C" {
-  uintptr_t heap_begin;
-  uintptr_t heap_end;
-}
+
+
+extern uintptr_t heap_begin;
+extern uintptr_t heap_end;
 
 extern "C"
 void abort() {
@@ -78,18 +77,6 @@ void _exit(int status) {
   default_exit();
 }
 
-void* sbrk(ptrdiff_t incr) {
-  /// NOTE:
-  /// sbrk gets called really early on, before everything else
-  if (UNLIKELY(heap_end + incr > OS::heap_max())) {
-    errno = ENOMEM;
-    return (void*)-1;
-  }
-  auto prev_heap_end = heap_end;
-  heap_end += incr;
-  return (void*) prev_heap_end;
-}
-
 clock_t times(struct tms*) {
   panic("SYSCALL TIMES Dummy, returning -1");
   return -1;
@@ -98,12 +85,6 @@ clock_t times(struct tms*) {
 int wait(int*) {
   debug((char*)"SYSCALL WAIT Dummy, returning -1");
   return -1;
-}
-
-int gettimeofday(struct timeval* p, void*) {
-  p->tv_sec  = RTC::now();
-  p->tv_usec = 0;
-  return 0;
 }
 
 int kill(pid_t pid, int sig) THROW {
@@ -245,14 +226,20 @@ typedef int clockid_t;
 #define CLOCK_REALTIME 0
 #endif
 #endif
-// Basic second-resolution implementation - using CMOS directly for now.
+
 int clock_gettime(clockid_t clk_id, struct timespec* tp) {
   if (clk_id == CLOCK_REALTIME) {
-    tp->tv_sec = RTC::now();
-    tp->tv_nsec = 0;
+    *tp = __arch_wall_clock();
     return 0;
   }
+  printf("hmm clock_gettime called, -1\n");
   return -1;
+}
+int gettimeofday(struct timeval* p, void*) {
+  auto tval = __arch_wall_clock();
+  p->tv_sec  = tval.tv_sec;
+  p->tv_usec = tval.tv_nsec / 1000;
+  return 0;
 }
 
 extern "C" void _init_syscalls();
