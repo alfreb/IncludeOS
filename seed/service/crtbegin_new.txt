@@ -1,0 +1,65 @@
+
+/home/alfred/includeos_install/includeos/x86_64/lib/crtbegin.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <deregister_tm_clones>:
+   0:	55                   	push   %rbp
+   1:	b8 00 00 00 00       	mov    $0x0,%eax
+   6:	48 3d 00 00 00 00    	cmp    $0x0,%rax
+   c:	48 89 e5             	mov    %rsp,%rbp
+   f:	74 17                	je     28 <deregister_tm_clones+0x28>
+  11:	b8 00 00 00 00       	mov    $0x0,%eax
+  16:	48 85 c0             	test   %rax,%rax
+  19:	74 0d                	je     28 <deregister_tm_clones+0x28>
+  1b:	5d                   	pop    %rbp
+  1c:	bf 00 00 00 00       	mov    $0x0,%edi
+  21:	ff e0                	jmpq   *%rax
+  23:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+  28:	5d                   	pop    %rbp
+  29:	c3                   	retq   
+  2a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+0000000000000030 <register_tm_clones>:
+  30:	be 00 00 00 00       	mov    $0x0,%esi
+  35:	55                   	push   %rbp
+  36:	48 81 ee 00 00 00 00 	sub    $0x0,%rsi
+  3d:	48 89 e5             	mov    %rsp,%rbp
+  40:	48 c1 fe 03          	sar    $0x3,%rsi
+  44:	48 89 f0             	mov    %rsi,%rax
+  47:	48 c1 e8 3f          	shr    $0x3f,%rax
+  4b:	48 01 c6             	add    %rax,%rsi
+  4e:	48 d1 fe             	sar    %rsi
+  51:	74 15                	je     68 <register_tm_clones+0x38>
+  53:	b8 00 00 00 00       	mov    $0x0,%eax
+  58:	48 85 c0             	test   %rax,%rax
+  5b:	74 0b                	je     68 <register_tm_clones+0x38>
+  5d:	5d                   	pop    %rbp
+  5e:	bf 00 00 00 00       	mov    $0x0,%edi
+  63:	ff e0                	jmpq   *%rax
+  65:	0f 1f 00             	nopl   (%rax)
+  68:	5d                   	pop    %rbp
+  69:	c3                   	retq   
+  6a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+0000000000000070 <__do_global_dtors_aux>:
+  70:	80 3d 00 00 00 00 00 	cmpb   $0x0,0x0(%rip)        # 77 <__do_global_dtors_aux+0x7>
+  77:	75 17                	jne    90 <__do_global_dtors_aux+0x20>
+  79:	55                   	push   %rbp
+  7a:	48 89 e5             	mov    %rsp,%rbp
+  7d:	e8 7e ff ff ff       	callq  0 <deregister_tm_clones>
+  82:	c6 05 00 00 00 00 01 	movb   $0x1,0x0(%rip)        # 89 <__do_global_dtors_aux+0x19>
+  89:	5d                   	pop    %rbp
+  8a:	c3                   	retq   
+  8b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+  90:	f3 c3                	repz retq 
+  92:	0f 1f 40 00          	nopl   0x0(%rax)
+  96:	66 2e 0f 1f 84 00 00 	nopw   %cs:0x0(%rax,%rax,1)
+  9d:	00 00 00 
+
+00000000000000a0 <frame_dummy>:
+  a0:	55                   	push   %rbp
+  a1:	48 89 e5             	mov    %rsp,%rbp
+  a4:	5d                   	pop    %rbp
+  a5:	eb 89                	jmp    30 <register_tm_clones>
