@@ -1,0 +1,76 @@
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9ff108
+<strace> syscall mmap: addr=0 len=4096 prot=3 fl=34 fd=-1 off=0 res=0xdfa000
+<strace> syscall mmap: addr=0 len=4096 prot=3 fl=34 fd=-1 off=0 res=0xdfb000
+<strace> close fd=-1
+<strace> close fd=-1
+syscall pipe2 called
+syscall mincore called
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9ff108, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fef28
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fee38
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fee38, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9feb98
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9feb98, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fee88
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fee88, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fef28, oldset=0
+syscall msync called
+syscall read called
+<strace> close fd=-1
+<strace> close fd=-1
+syscall pipe2 called
+<strace> syscall_n, n=-1
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fef08
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fef08, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fec68
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fec68, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fef58
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fef58, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fef28
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fee38
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fee38, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9feb98
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9feb98, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fee88
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fee88, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fef28, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fef08
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fef08, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fec68
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fec68, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fef58
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fef58, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fed18
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fed18, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fea78
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fea78, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fed68
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fed68, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fed18
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fed18, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fea78
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fea78, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fed68
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fed68, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fef28
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fef28, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fef08
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fef08, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fec68
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fec68, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fef58
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fef58, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fef28
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fef28, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fef08
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fef08, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fec68
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fec68, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fef58
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fef58, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9feea8
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9feea8, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9fec08
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9fec08, oldset=0
+<strace> rt_sigprocmask how=2 (SETMASK), set=0xdf97c0, oldset=0x9feef8
+<strace> rt_sigprocmask how=2 (SETMASK), set=0x9feef8, oldset=0
