@@ -5,8 +5,7 @@
 // The actual syscall
 static long sys_write(int fd, char* str, size_t len) {
 
-  if (fd == 1 or fd == 2)
-  {
+  if (fd == 1 or fd == 2) {
     OS::print(str, len);
     return len;
   }
