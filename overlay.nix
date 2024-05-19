@@ -1,7 +1,10 @@
 final: prev: {
   pkgsIncludeOS = prev.pkgsStatic.lib.makeScope prev.pkgsStatic.newScope (self: {
     # self.callPackage will use this stdenv.
-    stdenv = prev.pkgsStatic.llvmPackages_16.libcxxStdenv;
+    # Export llvmPkgs to allow bootables to pick correct libs (e.g. libunwind)
+
+    llvmPkgs = prev.pkgsStatic.llvmPackages_16;
+    stdenv = self.llvmPkgs.libcxxStdenv;
 
     # Deps
     musl-includeos = self.callPackage ./deps/musl/default.nix { };
@@ -10,6 +13,34 @@ final: prev: {
     microsoft_gsl = self.callPackage ./deps/GSL/default.nix { };
     s2n-tls = self.callPackage ./deps/s2n/default.nix { };
     http-parser = self.callPackage ./deps/http-parser/default.nix { };
+
+    # Explicitly expose link-time dependencies for bootable binaries which
+    # needs to be linked against these using a custom linker script, and in
+    # a particular order.
+    libc      = { inherit (self) musl-includeos;
+                  a = "${self.musl-includeos}/lib/libc.a";
+                };
+
+    libcxx_parent = self.stdenv.cc.libcxx;
+    libcxx    = { inherit (self) libcxx_parent;
+                  a = "${self.stdenv.cc.libcxx}/lib/libc++.a";
+                };
+
+    libcxxabi = { inherit (self) libcxx_parent;
+                  a = "${self.stdenv.cc.libcxx}/lib/libc++abi.a";
+                };
+
+    libunwind_parent = self.llvmPkgs.libraries.libunwind;
+    libunwind = { inherit (self) libunwind_parent;
+                  a = "${self.llvmPkgs.libraries.libunwind}/lib/libunwind.a";
+                };
+
+    linkdeps = [
+      self.libc.a
+      self.libcxx.a
+      self.libcxxabi.a
+      self.libunwind.a
+    ];
 
     # IncludeOS
     includeos = self.stdenv.mkDerivation rec {
@@ -56,6 +87,7 @@ final: prev: {
         #self.s2n-tls          👈 This is postponed until we can fix the s2n build.
         self.uzlib
       ];
+
 
       # Add some pasthroughs, for easily building the depdencies (for debugging):
       # $ nix-build -A NAME
