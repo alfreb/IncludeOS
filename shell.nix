@@ -5,19 +5,21 @@
 }:
 pkgs.mkShell rec {
 
-  stdenv = includeos.stdenv;
+  # Note the lack of pkgsStatic.
+  stdenv = pkgs.llvmPackages_16.libcxxStdenv;
   vmbuild = nixpkgs.callPackage ./vmbuild.nix {};
   packages = [
     pkgs.buildPackages.cmake
     pkgs.buildPackages.nasm
-    includeos.stdenv.cc
-    includeos.stdenv.cc.libcxx
+    pkgs.buildPackages.llvmPackages_16.libcxxStdenv.cc
     vmbuild
   ];
 
-  inputsFrom = [
-    includeos.musl-includeos
-    includeos.stdenv.cc.libcxx
+  buildInputs = [
+    #includeos
+    #includeos.musl-includeos
+    #includeos.stdenv.cc.libcxx
+    pkgs.microsoft_gsl
   ];
 
   libc      = "${includeos.musl-includeos}/lib/libc.a";
@@ -45,21 +47,17 @@ pkgs.mkShell rec {
         file $dep
       done
     echo ""
-    export LIBC="${libc}"
-    export LIBCXX="${libcxx}"
-    export LIBCXXABI="${libcxxabi}"
-    export LIBUNWIND="${libunwind}"
 
     export CXX=clang++
     export CC=clang
-    echo "Dependencies are exported to LIBC, LIBCXX, LIBCXXABI, LIBUNWIND"
+    echo "Dependencies are export ed to LIBC, LIBCXX, LIBCXXABI, LIBUNWIND"
 
     rm -rf build_example
     mkdir build_example
     cd build_example
-    cmake ../example -DARCH=x86_64 -DINCLUDEOS_PACKAGE=$INCLUDEOS_PACKAGE -DINCLUDEOS_LIBC_PATH=$LIBC -DINCLUDEOS_LIBCXX_PATH=$LIBCXX -DINCLUDEOS_LIBCXXABI_PATH=$LIBCXXABI -DINCLUDEOS_LIBUNWIND_PATH=$LIBUNWIND
+    cmake ../example -DARCH=x86_64 -DINCLUDEOS_PACKAGE=$INCLUDEOS_PACKAGE -DINCLUDEOS_LIBC_PATH=${libc} -DINCLUDEOS_LIBCXX_PATH=${libcxx} -DINCLUDEOS_LIBCXXABI_PATH=${libcxxabi} -DINCLUDEOS_LIBUNWIND_PATH=${libunwind}
 
-    make -j12
+    # make -j12
 
 
   '';

@@ -8,7 +8,7 @@ project(hello_includeos)
 # IncludeOS binary install location
 # INCLUDEOS_SOURCE 👈 needed for rapid iteration on IncludeOS' cmake files
 
-message(status "Libunwind at: ${INCLUDEOS_LIBUNWIND_PATH}")
+message(STATUS "Libunwind at: ${INCLUDEOS_LIBUNWIND_PATH}")
 
 set(LIBRARIES
   ${INCLUDEOS_PACKAGE}/lib/libos.a
@@ -41,6 +41,8 @@ os_add_executable(hello_includeos "Hello world - OS included" src/main.cpp)
 #os_add_drivers(hello virtionet vmxnet3 boot_logger)
 os_add_stdout(hello_includeos default_stdout)
 
+
+os_include_directories(hello_includeos "${INCLUDEOS_PACKAGE}/include/os/")
 # This would be for application specific libs.
 #os_link_libraries(hello_includeos PRIVATE your_custom_lib)
 
