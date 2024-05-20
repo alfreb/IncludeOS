@@ -5,27 +5,27 @@
 }:
 pkgs.mkShell rec {
 
-  # Note the lack of pkgsStatic.
   stdenv = pkgs.llvmPackages_16.libcxxStdenv;
-  vmbuild = nixpkgs.callPackage ./vmbuild.nix {};
+  vmbuild_pkg = nixpkgs.callPackage ./vmbuild.nix {};
   packages = [
     pkgs.buildPackages.cmake
     pkgs.buildPackages.nasm
     pkgs.buildPackages.llvmPackages_16.libcxxStdenv.cc
-    vmbuild
+    vmbuild_pkg
   ];
 
   buildInputs = [
-    #includeos
-    #includeos.musl-includeos
-    #includeos.stdenv.cc.libcxx
     pkgs.microsoft_gsl
   ];
 
+  # TODO: Consider moving these to os.cmake, or overlay.nix. The same ones are
+  # defined in example/default.nix.
   libc      = "${includeos.musl-includeos}/lib/libc.a";
   libcxx    = "${includeos.stdenv.cc.libcxx}/lib/libc++.a";
   libcxxabi = "${includeos.stdenv.cc.libcxx}/lib/libc++abi.a";
   libunwind = "${llvmPkgs.libraries.libunwind}/lib/libunwind.a";
+
+  vmbuild = "${vmbuild_pkg}/bin/vmbuild";
 
   linkdeps = [
     libc
@@ -50,13 +50,16 @@ pkgs.mkShell rec {
 
     export CXX=clang++
     export CC=clang
-    echo "Dependencies are export ed to LIBC, LIBCXX, LIBCXXABI, LIBUNWIND"
+    export bootloader=$INCLUDEOS_PACKAGE/boot/bootloader
 
+    # FIXME: This is pretty bad, maybe use a tempdir.
     rm -rf build_example
     mkdir build_example
     cd build_example
     cmake ../example -DARCH=x86_64 -DINCLUDEOS_PACKAGE=$INCLUDEOS_PACKAGE -DINCLUDEOS_LIBC_PATH=${libc} -DINCLUDEOS_LIBCXX_PATH=${libcxx} -DINCLUDEOS_LIBCXXABI_PATH=${libcxxabi} -DINCLUDEOS_LIBUNWIND_PATH=${libunwind}
 
+    # This fails for some reason, due to missing libc includes, but works inside the shell;
+    # $ nix-shell --run "make -j12"
     # make -j12
 
 
