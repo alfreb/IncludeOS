@@ -41,8 +41,6 @@ os_add_executable(hello_includeos "Hello world - OS included" src/main.cpp)
 #os_add_drivers(hello virtionet vmxnet3 boot_logger)
 os_add_stdout(hello_includeos default_stdout)
 
-
-os_include_directories(hello_includeos "${INCLUDEOS_PACKAGE}/include/os/")
 # This would be for application specific libs.
 #os_link_libraries(hello_includeos PRIVATE your_custom_lib)
 
