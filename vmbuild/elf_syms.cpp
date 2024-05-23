@@ -8,13 +8,19 @@
 #include "../api/util/crc32.hpp"
 #include <unistd.h>
 
+
+/**
+ * Extracts ELF symbols to syms_file, for adding back with objcopy to
+ * a different location in the binary. Does not modify the ELF binary itself.
+ */
+static const char* syms_file = "_elf_symbols.bin";
+
 static char* elf_header_location;
 static const char* elf_offset(int o) noexcept {
   return elf_header_location + o;
 }
 
 static char* pruned_location = nullptr;
-static const char* syms_file = "_elf_symbols.bin";
 
 static int prune_elf_symbols(char*);
 
