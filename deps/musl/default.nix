@@ -8,11 +8,11 @@
 }:
 stdenv.mkDerivation rec {
   pname = "musl-includeos";
-  version = "1.1.18";
+  version = "1.1.24";
 
   src = fetchGit {
     url = "git://git.musl-libc.org/musl";
-    rev = "eb03bde2f24582874cb72b56c7811bf51da0c817";
+    rev = "ea9525c8bcf6170df59364c4bcd616de1acf8703";
   };
 
   enableParallelBuilding = true;
@@ -39,7 +39,7 @@ stdenv.mkDerivation rec {
     ./configure --prefix=$out --disable-shared --enable-debug CROSS_COMPILE=x86_64-unknown-linux-musl-
   '';
 
-  CFLAGS = "-Wno-error=int-conversion -nostdinc";
+  CFLAGS = "-Wno-error=int-conversion -Wno-error-implicit-function-declaration -nostdinc";
 
   meta = {
     description = "musl - Linux based libc, built with IncludeOS linux-like syscalls";

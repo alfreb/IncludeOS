@@ -199,6 +199,20 @@ long __syscall_ret(unsigned long), __syscall(syscall_arg_t, ...),
 #define __SC_recvmmsg    19
 #define __SC_sendmmsg    20
 
+#ifndef SO_RCVTIMEO_OLD
+#define SO_RCVTIMEO_OLD  20
+#endif
+#ifndef SO_SNDTIMEO_OLD
+#define SO_SNDTIMEO_OLD  21
+#endif
+
+#ifndef SIOCGSTAMP_OLD
+#define SIOCGSTAMP_OLD 0x8906
+#endif
+#ifndef SIOCGSTAMPNS_OLD
+#define SIOCGSTAMPNS_OLD 0x8907
+#endif
+
 #ifdef SYS_open
 #define __sys_open2(x,pn,fl) __syscall2(SYS_open, pn, (fl)|O_LARGEFILE)
 #define __sys_open3(x,pn,fl,mo) __syscall3(SYS_open, pn, (fl)|O_LARGEFILE, mo)
