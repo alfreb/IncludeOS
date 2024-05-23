@@ -53,7 +53,7 @@ void kernel_start(uint32_t magic, uint32_t addr)
 {
 
   __serial_print1("\n//////////////////  IncludeOS kernel start //////////////////\n");
-  //GDB_EARLY_ENTRY;
+
 
   PRATTLE("* Booted with magic 0x%x, grub @ 0x%x\n",
           magic, addr);
@@ -75,7 +75,7 @@ void kernel_start(uint32_t magic, uint32_t addr)
     memory_end = kernel::softreset_memory_end(addr);
   } else {
     PRATTLE("* Unknown magic number, 0x%x. Assuming 128 MB (qemu default)\n", magic);
-    memory_end = free_mem_begin + 128_MiB;
+    memory_end = 128_MiB;
 
   }
   PRATTLE("* Free mem begin: 0x%zx, memory end: 0x%zx\n",
@@ -88,6 +88,7 @@ void kernel_start(uint32_t magic, uint32_t addr)
 
   PRATTLE("* Init .bss\n");
   _init_bss();
+
 
   // Instantiate machine
   size_t memsize = memory_end - free_mem_begin;
