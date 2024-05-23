@@ -24,7 +24,7 @@
 // The same as GDB_ENTRY but without the printf dependency.
 // For the cases when nothing works.
 #if defined(__x86_64__) || defined(__i386__)
-#define GDB_ENTRY { \  printf("Waiting for GDB to set %%eax to 1..\n"); \
+#define GDB_ENTRY { printf("Waiting for GDB to set %%eax to 1..\n"); \
     GDB_EAX_TRICK; }
 #else
 #define GDB_ENTRY
