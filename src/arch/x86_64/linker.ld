@@ -1,4 +1,4 @@
-/**
+/** 
  * This file is a part of the IncludeOS unikernel - www.includeos.org
  *
  * Copyright 2015 Oslo and Akershus University College of Applied Sciences
@@ -27,7 +27,7 @@ SECTIONS
 
   .multiboot : {
       PROVIDE(_MULTIBOOT_START_ = .);
-      *(.multiboot)
+      KEEP(*(.multiboot))
    }
 
   .text ALIGN(0x1000):

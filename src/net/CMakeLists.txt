@@ -6,7 +6,7 @@ if(${ARCH} STREQUAL "x86_64")
     openssl/tls_stream.cpp
     https/openssl_server.cpp
     http/client.cpp
-    https/s2n_server.cpp
+ #   https/s2n_server.cpp
   )
   #TODO get from conan
   set(OPENSSL_LIBS

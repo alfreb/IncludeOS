@@ -20,9 +20,9 @@
 #if __has_include(<experimental/memory_resource>)
 #include <experimental/memory_resource>
 #include <experimental/vector>
-namespace std {
-  namespace pmr = std::experimental::pmr;
-}
+//namespace std { Not needed with more recent libcxx
+//  namespace pmr = std::experimental::pmr;
+//}
 #else
 #include <memory_resource>
 #include <vector> // For pmr::vector
