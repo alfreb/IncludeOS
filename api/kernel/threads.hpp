@@ -72,7 +72,7 @@ namespace kernel
     # ifdef ARCH_x86_64
         asm("movq %%fs:(0x10), %0" : "=r" (thread));
     # elif defined(ARCH_i686)
-        asm("movq %%gs:(0x08), %0" : "=r" (thread));
+        asm("movl %%gs:(0x08), %0" : "=r" (thread));
     # elif defined(ARCH_aarch64)
         // TODO: fixme, find actual TP offset for aarch64 threads
         char* tp;
