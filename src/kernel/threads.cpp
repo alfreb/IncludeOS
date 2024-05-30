@@ -3,7 +3,7 @@
 #include <common>
 #include <pthread.h>
 #include <kprint>
-#ifdef ARCH_x86_64
+#if defined(ARCH_x86_64) || defined(ARCH_i686)
 #include <arch/x86/cpu.hpp>
 #endif
 
@@ -233,7 +233,7 @@ namespace kernel
 
   void* get_thread_area()
   {
-# ifdef ARCH_x86_64
+# if defined(ARCH_x86_64) || defined(ARCH_i686)
     return (void*) x86::CPU::read_msr(IA32_FS_BASE);
 # elif defined(ARCH_aarch64)
     void* thread;
