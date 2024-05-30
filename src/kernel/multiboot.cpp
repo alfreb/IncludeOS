@@ -117,7 +117,7 @@ void kernel::multiboot_mmap(void* start, size_t size)
           continue;
         }
         // For non-aligned addresses, assign
-        os::mem::vmmap().assign_range({map.addr, map.addr + map.len-1, "Reserved (Multiboot)"});
+        os::mem::vmmap().assign_range({static_cast<uintptr_t>(map.addr), static_cast<uintptr_t>(map.addr + map.len-1), "Reserved (Multiboot)"});
       }
       else
       {
