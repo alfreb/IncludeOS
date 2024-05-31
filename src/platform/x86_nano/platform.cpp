@@ -60,7 +60,7 @@ void __arch_disable_legacy_irq(unsigned char){}
 
 void SMP::global_lock() noexcept {}
 void SMP::global_unlock() noexcept {}
-int SMP::cpu_id() noexcept { return 0; }
+/*int SMP::cpu_id() noexcept { return 0; }*/
 int SMP::cpu_count() noexcept { return 1; }
 
 void os::halt() noexcept {
