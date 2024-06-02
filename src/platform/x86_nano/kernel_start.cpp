@@ -24,7 +24,7 @@ void kernel_start(uintptr_t magic, uintptr_t addr)
   // Determine where free memory starts
   extern char _end;
   uintptr_t free_mem_begin = (uintptr_t) &_end;
-  uintptr_t mem_end = os::Arch::max_canonical_addr;
+  uintptr_t mem_end = 128_MiB; // Qemu default.
 
   if (magic == MULTIBOOT_BOOTLOADER_MAGIC) {
     free_mem_begin = _multiboot_free_begin(addr);
@@ -56,9 +56,10 @@ void kernel_start(uintptr_t magic, uintptr_t addr)
   __arch_poweroff();
 }
 
-/*
-extern "C" int __divdi3() {}
-extern "C" int __moddi3() {}
-extern "C" unsigned int __udivdi3() {}
-extern "C" unsigned int __umoddi3() {}
-*/
+
+// A lightweight panic.
+void panic(const char* why){
+  kprint("%s .\nReason: %s", panic_signature, why);
+  // Halt forever
+  __asm("cli;hlt");
+}

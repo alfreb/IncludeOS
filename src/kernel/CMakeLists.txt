@@ -3,19 +3,17 @@ set(SRCS
     cpuid.cpp
     elf.cpp
     events.cpp
+    exit.cpp
     fiber.cpp
     memmap.cpp
     multiboot.cpp
     os.cpp
-    panic.cpp
     profile.cpp
     service_stub.cpp
     #scoped_profiler.cpp
     smp_common.cpp
     smp_utils.cpp
-#    elf.cpp
-  #  fiber.cpp
-#    profile.cpp
+    #profile.cpp
     terminal.cpp
     timers.cpp
     threads.cpp
@@ -27,7 +25,7 @@ set(SRCS
     )
 if (NOT CMAKE_TESTING_ENABLED)
   list(APPEND SRCS
-  #  rdrand.cpp
+    #rdrand.cpp
     heap.cpp
     kernel.cpp
     liveupdate.cpp

@@ -17,6 +17,7 @@ set(X86_PC_OBJECTS
   ioapic.cpp
   kernel_start.cpp
   os.cpp
+  panic.cpp
   pic.cpp
   pit.cpp
   platform.cpp
