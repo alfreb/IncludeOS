@@ -13,8 +13,6 @@
 #define THROW
 #endif
 
-// Emitted if and only if panic (unrecoverable system wide error) happens
-static const char* panic_signature = "\x15\x07\t**** PANIC ****";
 extern uintptr_t heap_begin;
 extern uintptr_t heap_end;
 
@@ -192,7 +190,7 @@ void kernel::default_exit() {
 }
 
 extern "C"
-void _init_syscalls()
+void __init_crash_context()
 {
   // make sure each buffer is zero length so it won't always show up in crashes
   for (auto& ctx : contexts)

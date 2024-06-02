@@ -10,7 +10,7 @@ extern "C" {
 extern "C" {
   void __init_sanity_checks();
   uintptr_t _move_symbols(uintptr_t loc);
-  void _init_syscalls();
+  void __init_crash_context();
   void _init_elf_parser();
 }
 
@@ -58,8 +58,8 @@ void kernel_start()
   // Begin portable HAL initialization
   __machine->init();
 
-  // Initialize system calls
-  _init_syscalls();
+  // Initialize crash context
+  __init_crash_context();
 
   x86::init_libc((uint32_t) (uintptr_t) temp_cmdline, 0);
 }

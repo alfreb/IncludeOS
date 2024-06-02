@@ -113,14 +113,13 @@ extern "C" {/*
   uintptr_t _move_symbols(uintptr_t loc);
 //  void _init_bss();
   void _init_heap(uintptr_t);
-  void _init_syscalls();
 */
   void __init_sanity_checks();
+  void __init_crash_context();
   void kernel_sanity_checks();
   void _init_bss();
   uintptr_t _move_symbols(uintptr_t loc);
   void _init_elf_parser();
-  void _init_syscalls();
   void __elf_validate_section(const void*);
 }
 
@@ -224,8 +223,8 @@ void kernel_start(uintptr_t magic, uintptr_t addrin)
   // Begin portable HAL initialization
   __machine->init();
 
-  // Initialize system calls
-  _init_syscalls();
+  // Initialize crash context
+  __init_crash_context();
 
   //probably not very sane!
   cpu_debug_enable();

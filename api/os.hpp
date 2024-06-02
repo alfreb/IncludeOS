@@ -74,6 +74,11 @@ namespace os {
   __attribute__((noreturn))
   void panic(const char* why) noexcept;
 
+  /** Panic should emit this string as well as "why"
+   *  Tooling may depend on this.
+   */
+  constexpr char panic_signature[] = "\x15\x07\t**** PANIC ****";
+
   /** Default behavior after panic **/
   enum class Panic_action {
     halt, reboot, shutdown

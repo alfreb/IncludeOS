@@ -5,13 +5,13 @@
 #include <os.hpp>
 #include <kernel/service.hpp>
 #include <boot/multiboot.h>
+#include <util/units.hpp>
+
+using namespace util::literals;
 
 extern "C" {
   void __init_sanity_checks();
   uintptr_t _move_symbols(uintptr_t loc);
-  void _init_bss();
-  void _init_heap(uintptr_t);
-  void _init_syscalls();
 }
 
 uintptr_t _multiboot_free_begin(uintptr_t boot_addr);
@@ -41,9 +41,6 @@ void kernel_start(uintptr_t magic, uintptr_t addr)
   // Initialize heap
   kernel::init_heap(free_mem_begin, mem_end);
 
-  // Initialize system calls
-  _init_syscalls();
-
   // Initialize stdout handlers
   if (os_default_stdout)
     os::add_stdout(&kernel::default_stdout);
@@ -58,8 +55,18 @@ void kernel_start(uintptr_t magic, uintptr_t addr)
 
 
 // A lightweight panic.
-void panic(const char* why){
-  kprint("%s .\nReason: %s", panic_signature, why);
+void os::panic(const char* why) noexcept {
+  kprint(os::panic_signature);
+  kprint("\nReason:\n");
+  kprint(why);
+  kprint("\n\x04"); // End of transmission, for tooling.
+
   // Halt forever
   __asm("cli;hlt");
+}
+
+// Failed "Expects"
+void __expect_fail(const char *expr, const char *file, int line, const char *func){
+  kprintf("%s:%i%:%s\n>>>%s\n", file, line, func, expr);
+  os::panic(expr);
 }
