@@ -3,6 +3,18 @@
 Please categorize a release with the following headings: Added, Changed, Deprecated, Removed, Fixed, Security
 Guidelines taken from: https://keepachangelog.com/en/1.0.0/
 -->
+## v0.16.0
+This release restores most of the v0.15 funcionality with significant workflow imporvements for development and testing. 
+
+### Added
+- Nix build system
+  -  [Bjørn Forsman](https://github.com/bjornfor) wrote [the initial nix expression](https://github.com/includeos/IncludeOS/pull/2225) that got us back up and running after a few years in Hiatus. At the time everything was broken due to Conan 2.0 deprecating all our conanfiles and several tools and libraries were out of support and no longer available. Bjørn wrote the original nix expression in 2021 without submitting it, and the fact that it just works 3 years later made it clear that this is the build system we want to use going forward. 
+
+### Deprecated
+- Pthreads are no longer the default and not really supported. The work towards having every core run a pthread is preserved here: 
+
+### Removed 
+- Conan build system
 
 ## v0.15.0
 
